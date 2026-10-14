@@ -1,6 +1,6 @@
 import { AppError } from "../errors/AppError";
 import { createUser } from "../repositories/user.repository";
-import { createTask, fetchTaskByUserId, findTaskByIdAndUserID } from "../repositories/user.task.repository";
+import { createTask, deleteTask, fetchTaskByUserId, findTaskByIdAndUserID, updateTaskTitle } from "../repositories/user.task.repository";
 import { Task } from "../types/task";
 
 
@@ -42,4 +42,31 @@ export async function getUserTaskById(userId : string ,taskId : string):Promise<
     }
 
     return task;
+}
+
+export async function updateUserTask(
+    taskId : string,
+    userId : string,
+    title : unknown
+):Promise<Task> {
+
+    const validTitle = validateTitle(title)
+
+    const task = await updateTaskTitle(taskId , userId , validTitle);
+    
+
+    if (!task) {
+        throw new AppError(404 , "task not found")
+    }
+
+    return task;
+}
+
+export async function deleteUserTask(taskId  : string, userId : string ) :Promise<void> {
+    const deleted = await deleteTask(taskId, userId)
+
+    if (!deleted){
+        throw new AppError(404 , "task not found");
+    }
+    
 }

@@ -1,3 +1,4 @@
+import { AppError } from "../errors/AppError";
 import { pool } from "../lib/db";
 import { Task } from "../types/task";
 
@@ -44,4 +45,29 @@ export async function findTaskByIdAndUserID(taskId: string , userId : string):Pr
         }
 
         return result.rows[0];
+}
+
+export async function updateTaskTitle(taskId : string , userId : string , title : string):Promise<Task | null > {
+
+    const result = await pool.query(`
+        update support_tasks
+        SET  title = $1, updated_at = NOW() 
+        where id = $2 and user_id = $3
+        RETURNING *;
+        `, [title,taskId,userId])
+
+        if (result.rows.length === 0 ) {
+            return null;
+        }
+
+        return result.rows[0]
+}
+
+export async function deleteTask(taskId : string , userId : string ) :Promise<boolean>{
+    const result = await pool.query(
+        `delete from support_tasks where id = $1 and user_id = $2`,
+        [taskId, userId]
+    );
+
+    return (result.rowCount ?? 0 ) > 0 
 }

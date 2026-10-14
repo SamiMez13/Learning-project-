@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import { authenticate } from '../middlewares/auth.middleware';
-import { createUserTask, getUserTaskById, getUserTasks } from '../services/user.task.service';
+import { createUserTask, deleteUserTask, getUserTaskById, getUserTasks, updateUserTask } from '../services/user.task.service';
 import { requireAdmin } from '../middlewares/admin.middleware';
 
 export const userTaskRouter = Router();
@@ -53,4 +53,34 @@ userTaskRouter.get("/:taskId",async( req , res  ,next )=>{
         next(error)
     }
 })
+
+
+userTaskRouter.patch("/:taskId" , async( req , res  ,next )=>{
+    try {
+        
+        const task = await updateUserTask(req.params.taskId, req.user!.userId ,req.body.title)
+        res.status(200).json({
+            success  : true , 
+            data : {task},
+        })
+
+    }catch(error){
+        next(error)
+    }
+})
+
+
+userTaskRouter.delete("/:taskId", async( req , res  ,next )=>{
+    try {
+        await deleteUserTask(req.params.taskId, req.user!.userId)
+
+        res.status(200).json({
+            success :true,
+            message : "Task deleted successfully from db"
+        })
+
+    }catch(error){
+        next(error)
+    }
+}) 
 
