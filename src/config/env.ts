@@ -18,5 +18,12 @@ export const env = {
     logLevel: process.env.LOG_LEVEL ?? "info",
     databaseUrl: checkRequiredEnvVariables("DATABASE_URL"),
     jwtAccessSecret:checkRequiredEnvVariables("JWT_SECRET"),
-    jwtAccessExpiresIn:checkRequiredEnvVariables("JWT_ACCESS_EXPIRES_IN")
+    jwtAccessExpiresIn:checkRequiredEnvVariables("JWT_ACCESS_EXPIRES_IN"),
+    cloudinaryCloudName:checkRequiredEnvVariables("CLOUDINARY_CLOUD_NAME"),
+    cloudinaryApiKey:checkRequiredEnvVariables("CLOUDINARY_API_KEY"),
+    cloudinarySecretKey:checkRequiredEnvVariables("CLOUDINARY_SECRET_KEY"),
+    redisUrl:checkRequiredEnvVariables("REDIS_URL"),
+    googleClientId:checkRequiredEnvVariables("GOOGLE_CLIENT_ID"),
+    googleClientSecret:checkRequiredEnvVariables("GOOGLE_CLIENT_SECRET"),
+    googleRedirectUrl:checkRequiredEnvVariables("GOOGLE_CALLBACK_URL")
 } as const;

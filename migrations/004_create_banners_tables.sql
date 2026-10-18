@@ -4,9 +4,7 @@ CREATE TABLE banners (
 
     image_url TEXT NOT NULL,
 
-    cloudinary_primary_id TEXT NOT NULL,
-
-    cloudinary_secondary_id TEXT NOT NULL,
+    cloudinary_public_id TEXT NOT NULL,
 
     created_at TIMESTAMP NOT NULL DEFAULT now(),
 
